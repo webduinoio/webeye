@@ -36,7 +36,6 @@
 
   function connect() {
     cam = new Camera('http://cam' + camId.value + '.local:81/stream');
-    cam.setRotate(90);
     cam.onCanvas('c1');
   }
   </script>
