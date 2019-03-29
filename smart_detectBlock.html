@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly Demo 01</title>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
+  <script src="js/waspot.js"></script>
+  <script src="js/opencv.js"></script>
+  <style id="jsbin-css">
+  #demo-area-01-show {
+    font-size: 60px;
+    pointer-events: auto !important;
+  }
+  </style>
+</head>
+
+<body>
+  <div><span id="demo-area-01-show"></span></div>
+  <canvas id='c1' width=240 height=320></canvas>
+  <script id="jsbin-javascript">
+  var rgbled;
+  var hot = new HotBlock('c1' /*, 'c2'*/ );
+  var cam = new Camera(0).setRotate(90);
+  hot.setBlock([10, 10, 110, 110], {
+    inside: function (pos) {
+      var c = document.getElementById("c1");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, pos.radius, 0, 2 * Math.PI);
+      ctx.stroke();
+      this.setStroke(3, "#00FF00");
+      rgbled.setColor("#00FF00");
+    },
+    outside: function (pos) {
+      this.setStroke(3, "#FF0000");
+      rgbled.setColor("#FF0000");
+    }
+  });
+
+  boardReady({ board: 'Smart', device: 'aVE2m', transport: 'mqtt' }, function (board) {
+    console.log("Ready...");
+    board.samplingInterval = 50;
+    rgbled = getRGBLedCathode(board, 15, 12, 13);
+    cam.onCanvas('c1', function (canvas) {
+      hot.scan();
+    });
+    hot.startAfter(500);
+  });
+  </script>
+</body>
