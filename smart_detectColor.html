@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly Demo 01</title>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
+  <script src="js/waspot.js"></script>
+  <script src="js/opencv.js"></script>
+  <style id="jsbin-css">
+  #demo-area-01-show {
+    font-size: 60px;
+    pointer-events: auto !important;
+  }
+  </style>
+</head>
+
+<body>
+  <div><span id="demo-area-01-show"></span></div>
+  <canvas id='c1' width=240 height=320></canvas>
+  <script id="jsbin-javascript">
+  var rgbled;
+
+  var canvas = document.getElementById('c1');
+  var roi = new ColorROI(canvas, canvas, true, [10, 10, 120, 120]);
+  roi.addTrackingHSV("yellow", { "low": [20, 72, 132, 0], "high": [31, 125, 217, 255], "erosion": 5, "dilation": 12 });
+  roi.addTrackingHSV("green", { "low": [43, 63, 93, 0], "high": [77, 255, 185, 255], "erosion": 2, "dilation": 8 });
+
+  boardReady({ board: 'Smart', device: 'aVE2m', transport: 'mqtt' }, function (board) {
+    board.samplingInterval = 50;
+    rgbled = getRGBLedCathode(board, 15, 12, 13);
+
+    roi.onColor(function (key, pos) {
+      if (key == 'yellow' && pos.radius > 20) {
+        setColor('#0c0a00');
+      }
+      if (key == 'green' && pos.radius > 20) {
+        setColor('#000a00');
+      }
+    });
+    roi.start();
+
+    new Camera('http://cam35.local:81/stream')
+      .setRotate(90).onCanvas('c1', function (canvas) {
+        roi.scan();
+      });
+  });
+
+  var lastColor = '';
+  function setColor(color) {
+    if (lastColor != color) {
+      console.log("color", lastColor, color);
+      lastColor = color;
+      rgbled.setColor(lastColor);
+    }
+  }
+  </script>
+</body>

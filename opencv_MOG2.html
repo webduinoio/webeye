@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WebEye</title>
+  <script src='js/waspot.js'></script>
+  <script src='js/opencv.js'></script>
+</head>
+
+<body>
+  <canvas id='c' width=240 height=320></canvas>
+  <canvas id='c2' width=240 height=320></canvas>
+  <script>
+  var bs, work = false;
+  var filter = new ImageFilter(cv);
+  new Camera('http://cam35.local:81/stream')
+    .setRotate(90).onCanvas('c', function (canvas) {
+      let src = cv.imread('c');
+      let dstx = new cv.Mat();
+      if (work) {
+        bs.apply(src, dstx, 0.001);
+        dstx = filter.gaussianBlur(dstx, 3);
+        dstx = filter.erosion(dstx, 1);
+        cv.imshow('c2', dstx);
+      }
+      dstx.delete(); src.delete();
+    });
+  setTimeout(
+    function start() {
+      bs = new cv.BackgroundSubtractorMOG2(300, 150, false);
+      work = true;
+    }, 3000);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WebEye</title>
+  <script src='js/waspot.js'></script>
+  <script src='js/opencv.js'></script>
+</head>
+
+<body>
+  <canvas id='c' width=240 height=320></canvas>
+  <canvas id='c2' width=240 height=320></canvas>
+  <script>
+  new Camera('http://cam35.local:81/stream')
+  	.setRotate(90).onCanvas('c', function (c) {
+    let src = cv.imread('c');
+    let dst = new cv.Mat();
+
+    cv.cvtColor(src, dst,
+      cv.COLOR_RGBA2GRAY, 0);
+    cv.imshow('c2', dst);
+
+    src.delete();
+    dst.delete();
+  });
+  </script>
+</body>
+
+</html>
