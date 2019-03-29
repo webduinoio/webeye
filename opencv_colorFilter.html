@@ -10,9 +10,10 @@
 <body>
   <canvas id='c' width=240 height=320></canvas>
   <canvas id='c2' width=240 height=320></canvas>
+  <br><a href="index.html">回首頁</a>
   <script>
   var filter = new ImageFilter(cv);
-  var color = {"low":[1,54,122,0],"high":[38,99,255,255],"erosion":0,"dilation":0};
+  var color = { "low": [28, 27, 111, 0], "high": [67, 123, 192, 255], "erosion": 3, "dilation": 2 };
 
   new Camera('http://cam35.local:81/stream')
     .setRotate(90).onCanvas('c', function (c) {
