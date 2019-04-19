@@ -180,7 +180,7 @@ var Camera = (function () {
 
       image.onload = function () {
         setTimeout(function () {
-          if (typeof callback == 'function') {
+          if (self.onCanvasCallbackList.length > 0) {
             callback(image);
           }
           image.src = self.URL + "?" + Math.random();
@@ -190,10 +190,15 @@ var Camera = (function () {
 
     onCanvas(eleOrId, callback) {
       var self = this;
-      //use setCanvas()
-      if (arguments.length == 1) {
+      //check if it's callback function
+      if (arguments.length == 1
+        && typeof eleOrId == 'object'
+        && typeof eleOrId['tagName'] == 'undefined') {
         callback = eleOrId;
         eleOrId = this.getCanvas();
+      }
+      if (typeof callback == 'undefined') {
+        callback = function(){};
       }
       this.onCanvasCallbackList.push(callback);
       var canvas = self.getEle(eleOrId);
@@ -233,10 +238,8 @@ var Camera = (function () {
             var ele = document.createElement('img');
             self.onImage(ele, function (img) {
               self.rotateImg(ele, canvas, self.rotate, false);
-              if (self.onCanvasCallbackList.length > 0) {
-                for (var i = 0; i < self.onCanvasCallbackList.length; i++) {
-                  self.onCanvasCallbackList[i](self.canvas, video);
-                }
+              for (var i = 0; i < self.onCanvasCallbackList.length; i++) {
+                self.onCanvasCallbackList[i](self.canvas, video);
               }
             });
             break;
