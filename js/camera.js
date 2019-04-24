@@ -45,7 +45,7 @@ var Camera = (function () {
         this.URL = camType;
         if (camType.indexOf("ws://") == 0) {
           this.camType = wsCam;
-        } else if (camType.indexOf("http://") == 0) {
+        } else if (camType.indexOf("http://") == 0 || camType.indexOf(".mp4") > 0) {
           if (camType.indexOf(".mp4") > 0) {
             this.camType = videoStreamCam;
           } else if (camType.indexOf(":81/stream") > 0) {
@@ -201,8 +201,7 @@ var Camera = (function () {
       var self = this;
       //check if it's callback function
       if (arguments.length == 1
-        && typeof eleOrId == 'object'
-        && typeof eleOrId['tagName'] == 'undefined') {
+        && typeof eleOrId == 'function') {
         callback = eleOrId;
         eleOrId = this.getCanvas();
       }
