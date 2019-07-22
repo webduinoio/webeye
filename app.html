@@ -52,10 +52,9 @@
     vServo = getServo(board, 16);
     var p;
 
-    vServo.angle = 90;
-    hServo.angle = 90;
     setTimeout(function () {
-      vServo.angle = 45;
+      vServo.angle = 90;
+      hServo.angle = 90;
     }, 500);
     controllerBtnEvent(getElement('#demo-area-09 .btn-up'), 'click', function () {
       vServo.angle -= 5;
