@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="../js/camera.js"></script>
+</head>
+
+<body>
+  <canvas id='c1' width=320 height=240></canvas>
+  <br><a href="index.html">回首頁</a>
+  <script>
+  var cam = new Camera('http://cam99.local:81/stream');
+  //cam.setRotate(90);
+  cam.onCanvas('c1', function (c) {
+    var ctx = c.getContext('2d');
+    drawTime(ctx);
+  });
+
+  function drawTime(ctx) {
+    ctx.font = "12px Verdana";
+    ctx.fillStyle = '#ecdc00';
+    var x = ctx.canvas.width - 160;
+    var y = ctx.canvas.height - 4;
+    ctx.fillText(getDate(), x, y);
+  }
+
+  function getDate() {
+    var d = new Date();
+    dy = d.toLocaleDateString();
+    dt = d.toLocaleTimeString();
+    return dy + ' ' + dt;
+  }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="../js/camera.js"></script>
+</head>
+
+<body>
+  <canvas id='c1' width=320 height=240></canvas>
+  <br><a href="index.html">回首頁</a>
+  <script>
+    var cam = new Camera('http://127.0.0.1:9966/roadLane.mp4');
+    //cam.setRotate(90);
+    cam.onCanvas('c1',function(c){
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly Demo 01</title>
+  <style>
+  #demo-area-01-show {
+    font-size: 60px;
+    pointer-events: auto !important;
+  }
+  </style>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js?rev=4a356126b9573eb7bd1e9a7494737410"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js?rev=4426739c00d85325cb2d3d701fa50666"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js?rev=6a9037f813da79372168951bbfeafb49"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js?rev=c0bfd493efd477d098a4ae9e92b13880"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js?rev=683a69503433786202911b4d9f766100"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/camera.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/opencv.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/imageFilter.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/actor.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/HotSpot.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/HotBlock.js"></script>
+  <script src="https://aiot.webduino.cc/module/videoSensor/waspot-blockly.js"></script>
+</head>
+
+<body>
+  <video id='aa' style='position: absolute;top: 120px;right: 0;'></video>
+  <div><span id="demo-area-01-show">123</span></div>
+  <script>
+  var camera;
+  var video;
+  var play;
+  var stop2;
+  var hide;
+  var show;
+
+
+  document.getElementById('demo-area-01-show').style.fontSize = 20 + 'px';
+  document.getElementById('demo-area-01-show').innerHTML = '影像互動測試';
+  camera = createCamera("0", 480, 360, 0, true);
+  video = createOrGetVideoEle('aa', "http://webduino.tw/walkman.mp4", 400, 300);
+  play = new Actor(cv, {
+    "stage": camera,
+    "img": 'https://www.gstatic.com/images/icons/material/product/2x/youtube_64dp.png',
+    "pos": [0, 0, 48, 48]
+  });
+  play.start();
+  stop2 = new Actor(cv, {
+    "stage": camera,
+    "img": 'https://cdn4.iconfinder.com/data/icons/simplicio/128x128/player_stop.png',
+    "pos": [0, 0, 48, 48]
+  });
+  stop2.start();
+  hide = new Actor(cv, {
+    "stage": camera,
+    "img": 'https://image.flaticon.com/icons/png/128/633/633655.png',
+    "pos": [0, 0, 48, 48]
+  });
+  hide.start();
+  show = new Actor(cv, {
+    "stage": camera,
+    "img": 'https://image.flaticon.com/icons/png/128/593/593516.png',
+    "pos": [0, 0, 48, 48]
+  });
+  show.start();
+  play.moveTo(10, 10);
+  stop2.moveTo(90, 10);
+  show.moveTo(250, 10);
+  hide.moveTo(170, 10);
+  play.onTouch(
+    function (pos) {
+      video.play();
+      play.switchImg('https://webduino.io/img/training/training4.png', 1);
+
+    });
+  show.onTouch(
+    function (pos) {
+      video.hidden = false;
+      show.moveTo(250, 50);
+
+    });
+  hide.onTouch(
+    function (pos) {
+      video.hidden = true;
+
+    });
+  stop2.onTouch(
+    function (pos) {
+      video.load();
+
+    });
+  </script>
+</body>
+
+</html>
