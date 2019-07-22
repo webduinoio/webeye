@@ -1,0 +1,19 @@
+<html>
+<head>
+  <script src="https://marty5499.github.io/WebEye/js/waspot.js"></script>
+  <script src="https://marty5499.github.io/WebEye/js/camera.js"></script>
+</head>
+<body>
+  <canvas id='c' width=320 height=240></canvas>
+  <script>
+    // WebCam
+    //new Camera(0).onCanvas('c');
+    // WebRTC
+    new Camera("ws://192.168.0.130:8889/rws/ws").onCanvas('c');
+    // ESP32 Cam ( stream )
+    //new Camera("http://cam35.local:81/stream").onCanvas('c');
+    // ESP32 Cam (MJPEG)
+    //new Camera("http://webduino.tw/view/cam18").onCanvas('c');
+  </script>
+</body>
+</html>

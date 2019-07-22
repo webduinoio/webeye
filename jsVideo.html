@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../js/camera.js"></script>
+</head>
+
+<body>
+    <video id='a2'></video>
+    <script>
+        function createOrGetVideoEle(id, url, width, height) {
+            var videlem = document.getElementById(id);
+            if (videlem == null) {
+                var videlem = document.createElement("video");
+                videlem.id = id;
+                document.body.appendChild(videlem);
+            }
+            var sourceMP4 = document.createElement("source");
+            videlem.appendChild(sourceMP4);
+            sourceMP4.type = "video/mp4";
+            sourceMP4.src = url;
+            videlem.width = width;
+            videlem.height = height;
+            return videlem;
+        }
+    </script>
+</body>
+
+</html>

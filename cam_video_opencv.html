@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../js/waspot.js"></script>
+    <script src="../js/camera.js"></script>
+    <script src="../js/opencv.js"></script>
+</head>
+
+<body>
+    <canvas id='c1' width=320 height=240></canvas>
+    <canvas id='c2' width=320 height=240></canvas>
+    <br><a href="index.html">回首頁</a>
+    <script>
+        var cam = new Camera('roadLane.mp4');
+        //cam.setRotate(90);
+        cam.onCanvas('c1', function (canvas) {
+            let ctx = canvas.getContext('2d');
+            let src = cv.imread(canvas);
+            let dst = new cv.Mat();
+
+            cv.cvtColor(src, dst, cv.COLOR_BGR2GRAY, 0);
+            cv.imshow('c2', dst);
+
+            src.delete();
+            dst.delete();
+        });
+    </script>
+</body>
+
+</html>
