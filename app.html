@@ -57,18 +57,22 @@
       hServo.angle = 90;
     }, 500);
     controllerBtnEvent(getElement('#demo-area-09 .btn-up'), 'click', function () {
-      vServo.angle -= 5;
+      if (vServo.angle > 30)
+        vServo.angle -= 5;
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-down'), 'click', function () {
-      vServo.angle += 5;
+      if (vServo.angle < 150)
+        vServo.angle += 5;
     });
     controllerBtnEvent(getElement('#demo-area-09 .btn-left'), 'click', function () {
-      hServo.angle -= 5;
+      if (hServo.angle < 30)
+        hServo.angle -= 5;
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-right'), 'click', function () {
-      hServo.angle += 5;
+      if (hServo.angle < 150)
+        hServo.angle += 5;
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-center'), 'click', function () {
