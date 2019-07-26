@@ -19,7 +19,7 @@
     <div id="demo-area-09" class="da">
       <div id="demo-area-09-content">
         <div id="demo-area-09-controller">
-          <input type="range" min="0" max="180" step="5" value="90" class="demo-area-09-input">
+          <input type="range" min="150" max="30" step="-5" value="90" class="demo-area-09-input">
           <div class="demo-area-09-btn-group btn-direction-group">
             <div class="demo-area-09-btn btn-up">▲</div>
             <br>
@@ -37,8 +37,8 @@
   var imageClassifier;
   var hServo;
   var vServo;
-  //https://marty5499.github.io/WebEye/index.html#remotecam.webduino.io/camera/ylWjzxAnK/live/nJ3Em
   var param = location.hash.substring(1).split('@');
+  var range = document.querySelector('.demo-area-09-input');
   var deviceID = param[0];
   var camURL = param[1];
   console.log("deviceID:", deviceID);
@@ -57,44 +57,52 @@
       hServo.angle = 90;
     }, 500);
     controllerBtnEvent(getElement('#demo-area-09 .btn-up'), 'click', function () {
-      if (vServo.angle > 30)
+      if (vServo.angle > 10)
         vServo.angle -= 5;
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-down'), 'click', function () {
-      if (vServo.angle < 150)
+      if (vServo.angle < 170)
         vServo.angle += 5;
     });
     controllerBtnEvent(getElement('#demo-area-09 .btn-left'), 'click', function () {
-      if (hServo.angle < 30)
+      hServo.angle = parseInt(range.value);
+      if (hServo.angle > 10)
         hServo.angle -= 5;
+      setRangeBar(hServo.angle)
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-right'), 'click', function () {
-      if (hServo.angle < 150)
+      hServo.angle = parseInt(range.value);
+      if (hServo.angle < 170)
         hServo.angle += 5;
+      setRangeBar(hServo.angle)
     });
 
     controllerBtnEvent(getElement('#demo-area-09 .btn-center'), 'click', function () {
       hServo.angle = 90;
       vServo.angle = 90;
+      setRangeBar(90)
     });
 
-    var range = document.querySelector('.demo-area-09-input');
-    range.setAttribute('min', 0);
-    range.setAttribute('max', 180);
-    range.setAttribute('step', 1);
+    range.setAttribute('min', 10);
+    range.setAttribute('max', 170);
+    range.setAttribute('step', -1);
     range.setAttribute('value', 90);
-    p = Math.round((90 - 0) * 100 / (180 - 0));
+    p = Math.round((90 - 10) * 100 / (170 - 0));
     range.style.backgroundImage = '-webkit-linear-gradient(left, #246 0%, #246 ' + p + '%, #222 ' + p + '%, #222 100%)';
 
     range.oninput = function () {
-      var _value = this.value;
-      p = Math.round((_value - 0) * 100 / (180 - 0));
-      range.style.backgroundImage = '-webkit-linear-gradient(left, #246 0%, #246 ' + p + '%, #222 ' + p + '%, #222 100%)';
-      hServo.angle = (180 - _value);
+      setRangeBar(this.value);
+      hServo.angle = parseInt(range.value);
     };
   });
+
+  function setRangeBar(value) {
+    p = Math.round((value - 10) * 100 / (170 - 0));
+    range.style.backgroundImage = '-webkit-linear-gradient(left, #246 0%, #246 ' + p + '%, #222 ' + p + '%, #222 100%)';
+    range.value = value;
+  }
 
   function getElement(dom) {
     var element = document.querySelector(dom);
