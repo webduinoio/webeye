@@ -38,11 +38,11 @@
   var hServo;
   var vServo;
   var param = location.hash.substring(1).split('@');
-  var range = document.querySelector('.demo-area-09-input');
   var deviceID = param[0];
   var camURL = param[1];
   console.log("deviceID:", deviceID);
   console.log("camURL:", camURL);
+  var range = document.querySelector('.demo-area-09-input');
   boardReady({ board: 'Smart', device: deviceID, transport: 'mqtt' }, function (board) {
     board.samplingInterval = 50;
     var cam = new Camera(camURL);

@@ -40,8 +40,16 @@
   <script src="../js/camera.js"></script>
   <script src="js/CtrlPad.js"></script>
   <script type="text/javascript">
+  var param = location.hash.substring(1).split('@');
+  var deviceID = param[0];
+  var camURL = param[1];
+  console.log("deviceID:", deviceID);
+  console.log("camURL:", camURL);
+
+
+
   var canvas = document.getElementById('sketchpad');
-  boardReady({ board: 'Bit', device: 'bitbb706', transport: 'mqtt', multi: true }, (function (board) {
+  boardReady({ board: 'Bit', device: deviceID, transport: 'mqtt', multi: true }, (function (board) {
     window.board = board;
     console.log("Ready...", board);
     var lastLeft = 0;
@@ -79,9 +87,9 @@
     });
   }));
 
-
+  //'bita657a@http://192.168.0.84/jpg?0.1'
   //var cam = new Camera('http://192.168.0.180:81/stream');
-  var cam = new Camera('http://192.168.0.180/jpg?0.1');
+  var cam = new Camera(camURL);
   cam.setRotate(90);
   cam.onCanvas('c1', function (c) {
     var ctx = c.getContext('2d');
